@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+    <div class="row" style="min-height:500px">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="intro">
+                <h2>Hello</h2>
+                <h6>Not a member already!? <a asp-action="Register">Create an Account Now!</a></h6>
+            </div>
+
+            <form action="/Login/Index" method="post">
+                <div class="form-group">
+                    <label>Enter your Email</label>
+                    <input type="text" name="email" placeholder="Email email" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="form-group">
+                    <label>Enter your password</label>
+                    <input type="password" name="password" placeholder="Password" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Login" class="btn btn-success" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                @if (ViewData["Message"] != null && ViewData["Message"].ToString() != "")
+                {
+                    <div class="alert alert-danger">@ViewBag.Message</div>
+                }
+            </form>
+        </div>
+    </div>

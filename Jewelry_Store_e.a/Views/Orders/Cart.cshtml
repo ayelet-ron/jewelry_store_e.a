@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Jewelry_Store_e.a.Models.Order>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:240px">
+    <h2>Cart</h2>
+    @foreach (var item in Model)
+    {
+        @foreach (var purchase in item.PurchaseProducts)
+        {
+            <div class="w3-col l3 s6">
+                <div class="w3-container">
+                    <div class="w3-display-container">
+                        <img src="~/images/@Html.DisplayFor(modelItem => purchase.Product.Image)" style="width:100%">
+                        <span class="w3-tag w3-display-topleft">New</span>
+                    </div>
+                    <p>@Html.DisplayFor(modelItem => purchase.Product.Name)<br><b>@Html.DisplayFor(modelItem => purchase.Product.price)</b></p>
+                </div>
+            </div>
+        }
+    }
+    </div>
+
+

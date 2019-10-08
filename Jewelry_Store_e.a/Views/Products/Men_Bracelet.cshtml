@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Jewelry_Store_e.a.Models.Product>
+
+
+@{
+    ViewData["Title"] = "Men_Bracelet";
+}
+
+
+<!-- !PAGE CONTENT! -->
+    <h2>Men_Bracelet</h2>
+    @foreach (var item in Model)
+    {
+    <div class="w3-col l3 s6">
+        <div class="w3-container">
+            <div class="w3-display-container">
+                <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:100%">
+                <span class="w3-tag w3-display-topleft">New</span>
+                <div class="w3-display-middle w3-display-hover">
+                    <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+                </div>
+            </div>
+            <p>@Html.DisplayFor(modelItem => item.Name)<br><b>@Html.DisplayFor(modelItem => item.price)</b></p>
+        </div>
+    </div>
+    }

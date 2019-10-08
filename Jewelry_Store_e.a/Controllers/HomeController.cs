@@ -1,18 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Jewelry_Store_e.a.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Jewelry_Store_e.a.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public IActionResult Index()
+        public HomeController(SDMDbContext context) : base(context)
         {
-            return View();
+        }
+
+        public async Task<IActionResult> Index(string searchString, string searchcolor, int searchprice)
+        {
+            var products = from p in _context.Products
+                           select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Name.Contains(searchString));
+            }
+            if (!String.IsNullOrEmpty(searchcolor))
+            {
+                if (searchcolor.Equals("Gold"))
+                {
+                    products = products.Where(s => s.Color.Equals(color.Gold));
+                }
+                if (searchcolor.Equals("Silver"))
+                {
+                    products = products.Where(s => s.Color.Equals(color.Silver));
+                }
+
+            }
+            if (searchprice > 0)
+            {
+                products = products.Where(s => (int)s.price <= (searchprice));
+            }
+            return View(await products.ToListAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Customers()
+        {
+            var customers = from a in _context.Customers select a;
+            return View(customers);
         }
 
         public IActionResult About()
@@ -41,3 +79,5 @@ namespace Jewelry_Store_e.a.Controllers
         }
     }
 }
+
+
