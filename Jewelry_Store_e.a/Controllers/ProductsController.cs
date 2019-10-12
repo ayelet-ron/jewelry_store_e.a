@@ -19,21 +19,33 @@ namespace Jewelry_Store_e.a.Controllers
         {
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Home()
+        public IActionResult Home(string searchString, string searchcolor, int searchprice)
         {
+            Tuple<List<Product>, bool> filter = Filter(searchString, searchcolor, searchprice);
+            if (filter.Item2)
+            {
+                if(filter.Item1.Count == 0)
+                {
+                           
+                }
+                return View(filter.Item1);
+            }
             return View(KnnRecommandation());
         }
         // GET: Products
-        public async Task<IActionResult> Index(string searchString, string searchcolor, int searchprice)
+        public Tuple<List<Product>,bool> Filter(string searchString, string searchcolor, int searchprice)
         {
+            bool search = false;
             var products = from p in _context.Products
                            select p;
             if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(s => s.Name.Contains(searchString));
+                search = true;
             }
             if (!String.IsNullOrEmpty(searchcolor))
             {
+                search = true;
                 if (searchcolor.Equals("Gold"))
                 {
                     products = products.Where(s => s.Color.Equals(color.Gold));
@@ -46,14 +58,15 @@ namespace Jewelry_Store_e.a.Controllers
             }
             if (searchprice>0)
             {
+                search = true;
                 products = products.Where(s => (int)s.price<=(searchprice));
             }
-            return View(await products.ToListAsync());
+            return new Tuple<List<Product>,bool>(products.ToList(), search);
         }
-        /*public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
-        }*/
+        }
         public async Task<IActionResult> Rings()
         {
             var rings = from p in _context.Products

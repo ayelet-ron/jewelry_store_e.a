@@ -18,11 +18,9 @@ namespace Jewelry_Store_e.a.Controllers
         {
         }
         [AllowAnonymous]
-        public async Task<string[]> AjaxAsync()
+        public IActionResult AjaxAsync()
         {
-            var address = from p in _context.Shipments
-                        select p.Address;
-            return (await address.ToArrayAsync());
+            return View();
         }
 
         // GET: Shipments
@@ -60,7 +58,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShipmentID,Address,City")] Shipment shipment)
+        public async Task<IActionResult> Create([Bind("ShipmentID,Address")] Shipment shipment)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +90,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShipmentID,Address,City")] Shipment shipment)
+        public async Task<IActionResult> Edit(int id, [Bind("ShipmentID,Address")] Shipment shipment)
         {
             if (id != shipment.ShipmentID)
             {
