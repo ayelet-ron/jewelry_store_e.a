@@ -9,7 +9,5 @@ namespace Jewelry_Store_e.a.Models
     {
         public int ShipmentID { get; set; }
         public string Address { get; set; }
-        public string City { get; set; }
-
     }
 }

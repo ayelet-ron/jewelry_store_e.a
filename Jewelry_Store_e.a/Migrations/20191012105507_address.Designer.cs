@@ -4,14 +4,16 @@ using Jewelry_Store_e.a.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jewelry_Store_e.a.Migrations
 {
     [DbContext(typeof(SDMDbContext))]
-    partial class SDMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191012105507_address")]
+    partial class address
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

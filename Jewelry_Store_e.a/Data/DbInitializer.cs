@@ -82,7 +82,15 @@ namespace Jewelry_Store_e.a.Data
                 price = 85
             };
             context.Products.Add(p1);
-            context.SaveChanges();*/
+            context.SaveChanges();
+            context.Shipments.AddRange(new List<Shipment>() {
+                new Shipment
+                {
+                    Address="Raoul Wallenberg 24",
+                    City = "tel aviv"
+                }
+            });*/
+
         }
 
     }

@@ -35,7 +35,7 @@
 <body class="w3-content" style="max-width:1200px">
     <!-- Top header -->
     <header class="w3-container-fluid w3-xlarge">
-        <form asp-controller="Products" asp-action="Index">
+        <form asp-controller="Products" asp-action="Home">
             <p class="w3-right">
                 <small>Name:<input type="text" name="searchString" /></small>
                 <small>
@@ -47,7 +47,7 @@
                 </small>
                 <small>Price<input type="text" name="searchprice" /></small>
                 <input type="submit" value="Search" />
-                <a asp-area="" asp-controller="Products" asp-action="Index" class="fa fa-search"></a>
+                <a asp-area="" asp-controller="Products" asp-action="Home" class="fa fa-search"></a>
                 <a asp-area="" asp-controller="Orders" asp-action="Cart" class="fa fa-shopping-cart w3-margin-right"></a>
             </p>
                 </form>
@@ -55,7 +55,7 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+            <li><a asp-area="" asp-controller="Shipments" asp-action="AjaxAsync">About</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
