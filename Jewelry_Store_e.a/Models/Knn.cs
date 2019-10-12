@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Models
             foreach (var vector in products)
             {
                 //minimom
-                for (int i = 0; i < vectors.Length; i++)
+                for (int i = 0; i < vectors.GetLength(0); i++)
                 {
                     double d = Math.Sqrt(Math.Pow(vectors[i, 0] - (int)vector.Title, 2) + Math.Pow(vectors[i, 1] - (int)vector.Color, 2) + Math.Pow(vectors[i, 2] - (int)vector.price, 2));
                     if (d < min)
@@ -29,9 +29,14 @@ namespace Jewelry_Store_e.a.Models
             }
             return Majority(distance);
         }
+        //if the customer bought the hole store need to check !
         public static List<int> Majority(List<Tuple<double, int>> recomanded)
         {
-            return recomanded.OrderByDescending(a => a.Item1).Take(3).Select(t => t.Item2).ToList();
+            if (recomanded.Count > 3)
+            {
+                return recomanded.OrderByDescending(a => a.Item1).Take(3).Select(t => t.Item2).ToList();
+            }
+            return recomanded.OrderByDescending(a => a.Item1).Select(t => t.Item2).ToList();
         }
     }
 }

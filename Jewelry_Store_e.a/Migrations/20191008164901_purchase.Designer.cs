@@ -4,14 +4,16 @@ using Jewelry_Store_e.a.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jewelry_Store_e.a.Migrations
 {
     [DbContext(typeof(SDMDbContext))]
-    partial class SDMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008164901_purchase")]
+    partial class purchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +113,7 @@ namespace Jewelry_Store_e.a.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("PurchaseProducts");
+                    b.ToTable("PurchaseProduct");
                 });
 
             modelBuilder.Entity("Jewelry_Store_e.a.Models.Shipment", b =>
@@ -145,7 +147,7 @@ namespace Jewelry_Store_e.a.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Jewelry_Store_e.a.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("PurchaseProducts")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

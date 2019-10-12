@@ -13,6 +13,7 @@ namespace Jewelry_Store_e.a.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
+        public DbSet<PurchaseProduct> PurchaseProducts { get; set; }
         #endregion
 
         public SDMDbContext(DbContextOptions<SDMDbContext> options) : base(options)

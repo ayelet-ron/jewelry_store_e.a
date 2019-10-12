@@ -10,10 +10,6 @@ namespace Jewelry_Store_e.a.Models
     {
         Gold,Silver
     };
-    /*public enum size
-    {
-        S, M, L
-    };*/
     public enum title
     {
         Ring,Necklace, Women_Bracelet, Men_Bracelet, Earrings
@@ -31,7 +27,6 @@ namespace Jewelry_Store_e.a.Models
         [Required]
         public string Image { get; set; }
         public bool Sale { get; set; }
-        public ICollection<Order> Orders { get; set; }
 
     }
 }
