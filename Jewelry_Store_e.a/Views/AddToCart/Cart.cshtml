@@ -1,0 +1,30 @@
+﻿@model List<Jewelry_Store_e.a.Models.Product>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:240px">
+    <h2>Cart</h2>
+    @if (Model.Count<Product>() == 0)
+    {
+        <div class="alert alert-info">
+            <h3>Nothing in cart.</h3>
+            <h4>Add items to cart <a asp-controller="Products">here</a></h4>
+        </div>
+    }
+    @foreach (Product item in Model)
+    {
+        <div class="w3-col l3 s6">
+            <div class="w3-container">
+                <div class="w3-display-container">
+                    <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:100%">
+                    <span class="w3-tag w3-display-topleft">New</span>
+                </div>
+                <p>@Html.DisplayFor(modelItem => item.Name)<br><b>@Html.DisplayFor(modelItem => item.price)</b></p>
+            </div>
+        </div>
+    }
+</div>
+
+

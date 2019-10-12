@@ -1,4 +1,4 @@
-﻿@model Jewelry_Store_e.a.Models.Order
+﻿@model Jewelry_Store_e.a.Models.PurchaseProduct
 
 @{
     ViewData["Title"] = "Details";
@@ -7,20 +7,20 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Order</h4>
+    <h4>PurchaseProduct</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.customer)
+            @Html.DisplayNameFor(model => model.Order)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.customer.ID)
+            @Html.DisplayFor(model => model.Order.Id)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            @Html.DisplayNameFor(model => model.Product)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.OrderDate)
+            @Html.DisplayFor(model => model.Product.Image)
         </dd>
     </dl>
 </div>

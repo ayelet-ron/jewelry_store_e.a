@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Jewelry_Store_e.a.Models.Order>
+﻿@model Jewelry_Store_e.a.Models.Order
 
 @{
     ViewData["Title"] = "Cart";
@@ -6,21 +6,39 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:240px">
     <h2>Cart</h2>
-    @foreach (var item in Model)
+    @if (Model == null)
     {
-        @foreach (var purchase in item.PurchaseProducts)
-        {
-            <div class="w3-col l3 s6">
-                <div class="w3-container">
-                    <div class="w3-display-container">
-                        <img src="~/images/@Html.DisplayFor(modelItem => purchase.Product.Image)" style="width:100%">
-                        <span class="w3-tag w3-display-topleft">New</span>
-                    </div>
-                    <p>@Html.DisplayFor(modelItem => purchase.Product.Name)<br><b>@Html.DisplayFor(modelItem => purchase.Product.price)</b></p>
-                </div>
-            </div>
-        }
+        <div class="alert alert-info">
+            <h3>Nothing in cart.</h3>
+            <h4>Add items to cart <a asp-controller="Home" asp-action="Index">here</a></h4>
+        </div>
     }
-    </div>
-
-
+    @if (Model != null)
+    {
+        <div class="w3-row w3-grayscale">
+            <!-- Product grid -->
+            @foreach (var item in Model.PurchaseProducts)
+            {
+                <div class="w3-col l3 s6">
+                    <div class="w3-container">
+                        <div class="w3-display-container">
+                            <img src="~/images/@Html.DisplayFor(modelItem => item.Product.Image)" style="width:100%">
+                            @if (item.Product.Sale)
+                            {
+                                <span class="w3-tag w3-display-topleft">Sale</span>
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="w3-display-middle w3-display-hover">             
+                                    <button type="button" class="w3-button w3-black" onclick="location.href='@Url.Action("RemoveFromCart", "Orders")?id=' + @item.Id"> Remove From Cart <i class="fa fa-shopping-cart"></i></button>
+                                </div>
+                            }
+                        </div>
+                        <p>@Html.DisplayFor(modelItem => item.Product.Name)<br><b>@Html.DisplayFor(modelItem => item.Product.price)</b></p>
+                    </div>
+                </div>
+            }
+        </div>
+        <input type="button" class="w3-button w3-black" value="Buy Now" onclick="location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id" />
+    }
+</div>

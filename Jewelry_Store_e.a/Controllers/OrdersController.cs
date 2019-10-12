@@ -23,7 +23,7 @@ namespace Jewelry_Store_e.a.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.products);
+            var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
             return View(await SDMDbContext.ToListAsync());
         }
 
@@ -37,8 +37,8 @@ namespace Jewelry_Store_e.a.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.customer)
-                .Include(o => o.products)
-                .FirstOrDefaultAsync(m => m.OrderID == id);
+                .Include(o => o.PurchaseProducts)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -48,34 +48,80 @@ namespace Jewelry_Store_e.a.Controllers
         }
         public async Task<IActionResult> Cart()
         {
-            var order = from p in _context.Orders.Include(o => o.customer).Include(o => o.products)
+
+            var order = from p in _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts).ThenInclude(p => p.Product)
                         select p;
-            order = order.Where(o => o.OrderDate.Equals(DateTime.Today.Date));
             if (User.Identity.IsAuthenticated)
             {
                 int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
                 try
                 {
-                    order = order.Where(o => o.CustomerID == customerId);
+                    Order current = order.Where(o => o.CustomerID == customerId).Where(a => a.Purchase == false).SingleOrDefault();
+                    return View(current);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-            }
-            if (order == null)
-            {
-                return View(await order.ToListAsync());
-            }
 
+            }
             return View(await order.ToListAsync());
+        }
+        public IActionResult AddToCart(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
+                //need to make sure that we have only one current order all the other from the same date are cloesed
+                var currentOrder = _context.Orders.Where(o=>o.CustomerID==customerId).Where(a => a.Purchase == false).SingleOrDefault();
+                if (currentOrder == null)
+                {
+                    Order newOrder = new Order
+                    {
+                        CustomerID = customerId,
+                        OrderDate = DateTime.Now,
+                        Purchase = false
+                    };
+                    _context.Orders.Add(newOrder);
+                    _context.SaveChanges();
+                    //int orderid = _context.Orders.Where(o => o.OrderDate == DateTime.Now.Date).Where(a => a.Purchase == false).Select(a => a.Id).Single();
+                    _context.PurchaseProducts.Add(new PurchaseProduct { OrderID = newOrder.Id, ProductID = id });
+                    _context.SaveChanges();
+                    return RedirectToAction("Cart");
+
+                }
+                else
+                {
+                    _context.PurchaseProducts.Add(new PurchaseProduct { OrderID = currentOrder.Id, ProductID = id });
+                    _context.SaveChanges();
+                    return RedirectToAction("Cart");
+                }
+            }
+            return View();
+        }
+        public IActionResult RemoveFromCart(int id)
+        {
+            PurchaseProduct p = _context.PurchaseProducts.Where(o => o.Id == id).Single();
+            return RedirectToAction("Delete", "PurchaseProducts",new { id = id });
+        }
+        public IActionResult BuyNow(int id)
+        { 
+            if (User.Identity.IsAuthenticated)
+            {
+                Order order = _context.Orders.Where(o => o.Id == id).Single();
+                string url = string.Format("/Orders/Edit?id={0}&id={1}&CustomerID={2}&OrderDate={3}&Purchase={4}", id, id, order.CustomerID, order.OrderDate, true);
+                //this.Edit( id,[id, order.CustomerID, order.OrderDate, true]);
+                order.Purchase = true;
+                _context.Update(order);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "KNN");
         }
 
         // GET: Orders/Create
         public IActionResult Create()
         {
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID");
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name");
             return View();
         }
 
@@ -84,7 +130,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,CustomerID,ProductID,Rate,OrderDate")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,CustomerID,OrderDate,Purchase")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +139,6 @@ namespace Jewelry_Store_e.a.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID", order.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", order.ProductID);
             return View(order);
         }
 
@@ -111,7 +156,6 @@ namespace Jewelry_Store_e.a.Controllers
                 return NotFound();
             }
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID", order.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", order.ProductID);
             return View(order);
         }
 
@@ -120,9 +164,9 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,CustomerID,ProductID,Rate,OrderDate")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderDate,Purchase")] Order order)
         {
-            if (id != order.OrderID)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -136,7 +180,7 @@ namespace Jewelry_Store_e.a.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.OrderID))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -148,7 +192,6 @@ namespace Jewelry_Store_e.a.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID", order.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", order.ProductID);
             return View(order);
         }
 
@@ -162,8 +205,8 @@ namespace Jewelry_Store_e.a.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.customer)
-                .Include(o => o.products)
-                .FirstOrDefaultAsync(m => m.OrderID == id);
+                .Include(o => o.PurchaseProducts)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -185,7 +228,7 @@ namespace Jewelry_Store_e.a.Controllers
 
         private bool OrderExists(int id)
         {
-            return _context.Orders.Any(e => e.OrderID == id);
+            return _context.Orders.Any(e => e.Id == id);
         }
     }
 }
