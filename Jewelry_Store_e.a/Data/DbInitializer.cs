@@ -14,48 +14,76 @@ namespace Jewelry_Store_e.a.Data
             context.Database.EnsureCreated();
 
             // Look for any customers.
-           /* if (context.Customers.Any())
+            /* if (context.Customers.Any())
+             {
+                 return;   // DB has been seeded
+             }
+            Customer c = new Customer
             {
-                return;   // DB has been seeded
-            }*/
-
-            context.Customers.AddRange(
-                    new List<Customer>() {
-                        new Customer
-                        {
-                            //Id = 1,
-                            FirstName = "Admin",
-                            LastName = "Admin",
-                            BirthDate = new DateTime(1995, 11, 04),
-                            Email = "admin@sdm.com",
-                            Password = "admin",
-                            IsAdmin = true
-                        }
-                        });
-            context.Products.AddRange(new List<Product>() {
-                        new Product
-                        {
-                           // Id = 1,
-                            Name = "Milk 3% fat",
-                            Title = title.Earrings,
-                            Image="~/images/Eye necklace.jpg",
-                            Sale = true,
-                            Color=color.Gold,
-                            price = 100
-                        }
-            }
-            );
-            context.Orders.AddRange(
-                    new List<Order>() {
-                        new Order
-                        {
-                            CustomerID = 1,
-                            ProductID = {1 },
-                            OrderDate = DateTime.Now.AddDays(-1).AddHours(-2),
-                            Rate=3
-                        }
-                    }
-                    );
+                FirstName = "Admin",
+                LastName = "Admin",
+                BirthDate = new DateTime(1995, 11, 04),
+                Email = "admin@gmail.com",
+                Password = "admin",
+                IsAdmin = true
+            };
+            context.Customers.Add(c);
+            context.SaveChanges();
+            Product p = new Product
+            {
+                Name = "errings",
+                Title = title.Earrings,
+                Image = "~/images/Eye necklace.jpg",
+                Sale = true,
+                Color = color.Gold,
+                price = 100
+            };
+            context.Products.Add(p);
+            context.SaveChanges();
+            Order o = new Order
+            {
+                CustomerID = c.ID,
+                OrderDate = DateTime.Now
+            };
+            context.Orders.Add(o);
+            context.SaveChanges();
+            PurchaseProduct s = new PurchaseProduct
+            {
+                OrderID=o.Id,
+                ProductID=p.ID
+            };
+            context.PurchaseProducts.Add(s);
+            context.SaveChanges();
+            PurchaseProduct s1 = new PurchaseProduct
+            {
+                OrderID = 1,
+                ProductID = 1
+            };
+            context.PurchaseProducts.Add(s1);
+            context.SaveChanges();
+            Product p = new Product
+            {
+                Name = "seshell",
+                Title = title.Women_Bracelet,
+                Image = "Seashell bracelet.jpg",
+                Sale = false,
+                Color = color.Silver,
+                price = 70
+            };
+            context.Products.Add(p);
+            context.SaveChanges();
+            Product p1 = new Product
+            {
+                Name = "Big Eye",
+                Title = title.Ring,
+                Image = "Eye ring.jpg",
+                Sale = false,
+                Color = color.Silver,
+                price = 85
+            };
+            context.Products.Add(p1);
+            context.SaveChanges();*/
         }
+
     }
 }

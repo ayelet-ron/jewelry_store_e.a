@@ -35,7 +35,7 @@ namespace Jewelry_Store_e.a.Controllers
             //thos will do joi  i will sendt the view 
             var customer = await _context.Customers
                 .Include(s => s.Orders)
-                .ThenInclude(e => e.products)
+                .ThenInclude(e => e.PurchaseProducts)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (customer == null)
             {

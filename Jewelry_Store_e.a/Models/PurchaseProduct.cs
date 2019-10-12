@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Jewelry_Store_e.a.Models
 {
-    public class PurchaseProducts
+    public class PurchaseProduct
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Order")]
         public int OrderID { get; set; }
-        [ForeignKey("Product")]
         public int ProductID { get; set; }
+        [ForeignKey("OrderID")]
         public Order Order { get; set; }
+        [ForeignKey("ProductID")]
         public Product Product { get; set; }
     }
 }
