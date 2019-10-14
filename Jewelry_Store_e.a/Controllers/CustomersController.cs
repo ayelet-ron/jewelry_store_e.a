@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Jewelry_Store_e.a.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jewelry_Store_e.a.Controllers
 {
-    public class CustomersController : Controller
+    [Authorize(Roles = "Admin")]
+    public class CustomersController : BaseController
     {
-        private readonly SDMDbContext _context;
 
-        public CustomersController(SDMDbContext context)
+        public CustomersController(SDMDbContext context): base(context)
         {
-            _context = context;
         }
 
         // GET: Customers

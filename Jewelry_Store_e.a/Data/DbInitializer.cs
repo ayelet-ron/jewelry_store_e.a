@@ -89,8 +89,65 @@ namespace Jewelry_Store_e.a.Data
                     Address="Raoul Wallenberg 24",
                     City = "tel aviv"
                 }
-            });*/
-
+            });
+            context.Products.AddRange(new List<Product>() {
+                new Product
+                {
+                    Name = "set of braclet",
+                    Title = title.Men_Bracelet,
+                    Image = "set bracelet.jpg",
+                    Sale = false,
+                    Color = color.Gold,
+                    price = 60
+                },
+                new Product
+                {
+                    Name = "blue set bracelet",
+                    Title = title.Men_Bracelet,
+                    Image = "blue set bracelet.jpg",
+                    Sale = false,
+                    Color = color.Silver,
+                    price = 80
+                },
+                new Product
+                {
+                    Name = "bracelet ring",
+                    Title = title.Women_Bracelet,
+                    Image = "bracelet ring.jpg",
+                    Sale = false,
+                    Color = color.Gold,
+                    price = 140
+                },
+                new Product
+                {
+                    Name = "Big Eye",
+                    Title = title.Ring,
+                    Image = "Eye ring.jpg",
+                    Sale = false,
+                    Color = color.Silver,
+                    price = 85
+                },
+                new Product
+                {
+                    Name = "Green stone necklace",
+                    Title = title.Necklace,
+                    Image = "Green stone necklace.jpg",
+                    Sale = false,
+                    Color = color.Silver,
+                    price = 90
+                },
+                new Product
+                {
+                    Name = "tree eye ring",
+                    Title = title.Earrings,
+                    Image = "tree eye ring.jpg",
+                    Sale = false,
+                    Color = color.Silver,
+                    price = 85
+                }
+            });
+            context.SaveChanges();
+            */
         }
 
     }

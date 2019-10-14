@@ -1,4 +1,7 @@
 ﻿@model Jewelry_Store_e.a.Models.Order
+<head>
+    <script type='text/javascript' src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+</head>
 
 @{
     ViewData["Title"] = "Cart";
@@ -13,12 +16,14 @@
             <h4>Add items to cart <a asp-controller="Home" asp-action="Index">here</a></h4>
         </div>
     }
+    @{double total = 0; }
     @if (Model != null)
     {
         <div class="w3-row w3-grayscale">
             <!-- Product grid -->
             @foreach (var item in Model.PurchaseProducts)
             {
+                total = total + item.Product.price;
                 <div class="w3-col l3 s6">
                     <div class="w3-container">
                         <div class="w3-display-container">
@@ -29,7 +34,7 @@
                             }
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <div class="w3-display-middle w3-display-hover">             
+                                <div class="w3-display-middle w3-display-hover">
                                     <button type="button" class="w3-button w3-black" onclick="location.href='@Url.Action("RemoveFromCart", "Orders")?id=' + @item.Id"> Remove From Cart <i class="fa fa-shopping-cart"></i></button>
                                 </div>
                             }
@@ -37,8 +42,24 @@
                         <p>@Html.DisplayFor(modelItem => item.Product.Name)<br><b>@Html.DisplayFor(modelItem => item.Product.price)</b></p>
                     </div>
                 </div>
-            }
+        }
         </div>
-        <input type="button" class="w3-button w3-black" value="Buy Now" onclick="location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id" />
+        <h3>Total sum in $: @total</h3>
+        <h3 id="usd"></h3>
+        <input type="button" class="w3-button w3-black" id="buy" value="Buy Now" onclick="location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id" />
+        <script>
+            document.getElementById("buy").onclick = function () { myFunction() };
+            function myFunction() {
+                alert("congrajolashens enjoy your products!");
+                location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id;
+            }
+        </script>
     }
 </div>
+<script> 
+    $.get("https://api.exchangeratesapi.io/latest?base=USD", function (data) {
+        //document.getElementById("usd").value = data.rates.ILS;
+        document.getElementById("usd").innerHTML = "Total sum in ILS: " + data.rates.ILS * @total;
+    });
+</script>
+       

@@ -52,10 +52,11 @@
             </p>
                 </form>
     </header>
+
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a asp-area="" asp-controller="Shipments" asp-action="AjaxAsync">About</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -90,7 +91,16 @@
             <a asp-area="" asp-controller="Home" asp-action="Index" class="w3-bar-item w3-button">Home</a>
             @if (User.Identity.IsAuthenticated)
             {
-            <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Recommandation</a>
+                <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Recommandation</a>
+                if (User.HasClaim(ClaimTypes.Role, "Admin"))
+                {
+                    <a asp-area="" asp-controller="APIViews" asp-action="GrafDates" class="w3-bar-item w3-button">Graf dates</a>
+                    <a asp-area="" asp-controller="APIViews" asp-action="GrafInventory" class="w3-bar-item w3-button">Graf Inventory</a>
+                }
+            }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Catalog</a>
             }
             <a asp-area="" asp-controller="Products" asp-action="Rings" class="w3-bar-item w3-button">Rings</a>
             <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
@@ -103,6 +113,7 @@
             <a asp-area="" asp-controller="Products" asp-action="Necklace" class="w3-bar-item w3-button">Necklace</a>
             <a asp-area="" asp-controller="Products" asp-action="Necklace" class="w3-bar-item w3-button">Earrings</a>
             <a asp-area="" asp-controller="Products" asp-action="Sale" class="w3-bar-item w3-button">Sale</a>
+            <a asp-area="" asp-controller="Shipments" asp-action="AjaxAsync" class="w3-bar-item w3-button">Shipments Address</a>
         </div>
         <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a>

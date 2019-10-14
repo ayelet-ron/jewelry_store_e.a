@@ -24,13 +24,23 @@ namespace Jewelry_Store_e.a.Controllers
             Tuple<List<Product>, bool> filter = Filter(searchString, searchcolor, searchprice);
             if (filter.Item2)
             {
-                if(filter.Item1.Count == 0)
+                if (filter.Item1.Count == 0)
                 {
-                           
+                    return RedirectToAction("NoIndexFound");   
                 }
                 return View(filter.Item1);
             }
-            return View(KnnRecommandation());
+            List<Product> recommanded = KnnRecommandation();
+            if (recommanded.Count == 0)
+            {
+                recommanded = _context.Products.ToList();
+                return View(new Tuple<List<Product>, bool>(recommanded, false));
+            }
+            return View(new Tuple<List<Product>, bool>(recommanded, true));
+        }
+        public IActionResult NoIndexFound()
+        {
+            return View();
         }
         // GET: Products
         public Tuple<List<Product>,bool> Filter(string searchString, string searchcolor, int searchprice)
@@ -198,6 +208,7 @@ namespace Jewelry_Store_e.a.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

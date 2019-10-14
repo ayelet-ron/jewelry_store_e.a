@@ -1,9 +1,9 @@
-﻿@model List<Jewelry_Store_e.a.Models.Product>
+﻿@model Tuple<List<Jewelry_Store_e.a.Models.Product>,bool>
 @{
     ViewData["Title"] = "Home";
 }
 <br />
-<h1>Welcome</h1>
+<h1>Catalog</h1>
 <hr />
 <!DOCTYPE html>
 <html>
@@ -32,13 +32,19 @@
         </div>
     </div>
 
-    <div class="w3-container w3-text-grey" id="jeans">
-        <p>8 items</p>
-    </div>
+    @if (Model.Item2)
+    {
+        <h2>Because you liked</h2>
+    }
+    else
+    {
+        <h2>Start buying to get some recommendations...</h2>
+    }
+
     <div class="w3-row w3-grayscale">
 
         <!-- Product grid -->
-        @foreach (var item in Model)
+        @foreach (var item in Model.Item1)
         {
             <div class="w3-col l3 s6">
                 <div class="w3-container">

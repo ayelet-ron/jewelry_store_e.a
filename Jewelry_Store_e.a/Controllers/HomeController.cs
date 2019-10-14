@@ -19,38 +19,9 @@ namespace Jewelry_Store_e.a.Controllers
         {
         }
 
-        public async Task<IActionResult> Index(string searchString, string searchcolor, int searchprice)
+        public IActionResult Index()
         {
-            var products = from p in _context.Products
-                           select p;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                products = products.Where(s => s.Name.Contains(searchString));
-            }
-            if (!String.IsNullOrEmpty(searchcolor))
-            {
-                if (searchcolor.Equals("Gold"))
-                {
-                    products = products.Where(s => s.Color.Equals(color.Gold));
-                }
-                if (searchcolor.Equals("Silver"))
-                {
-                    products = products.Where(s => s.Color.Equals(color.Silver));
-                }
-
-            }
-            if (searchprice > 0)
-            {
-                products = products.Where(s => (int)s.price <= (searchprice));
-            }
-            return View(await products.ToListAsync());
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult Customers()
-        {
-            var customers = from a in _context.Customers select a;
-            return View(customers);
+            return View();
         }
 
         public IActionResult About()
