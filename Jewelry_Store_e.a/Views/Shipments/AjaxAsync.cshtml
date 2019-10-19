@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "AjaxAsync";
 }
-
-<h2>Shipments address</h2>
+<canvas id="clogo" width="200px" height="100px"></canvas>
 <h5>Your welcome to pick every shipment address and we will bring the product all the way to you</h5>
 
 <!DOCTYPE html>
@@ -22,3 +21,21 @@
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
 </body>
 </html>
+<script>
+    var canvas = $("#clogo")[0];
+    var ctx = canvas.getContext("2d");
+
+    // Create gradient
+    var grd = ctx.createLinearGradient(0, 0, 100, 100);
+    grd.addColorStop(0, "#cccccc");
+    grd.addColorStop(0.5, "#cccccc");
+    grd.addColorStop(1, "white");
+
+
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, 300, 100);
+
+    ctx.font = "16px Arial";
+    ctx.strokeText("Shipments address", 12, 52);
+</script>

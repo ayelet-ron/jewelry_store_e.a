@@ -27,7 +27,13 @@ namespace Jewelry_Store_e.a.Controllers
             var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
             return View(await SDMDbContext.ToListAsync());
         }
-
+        public async Task<IActionResult> myOrders()
+        {
+            int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
+            var SDMDbContext = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await SDMDbContext.ToListAsync());
+        }
+        [Authorize(Roles = "Admin")]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {

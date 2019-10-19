@@ -3,28 +3,52 @@
 @{
     ViewData["Title"] = "Rings";
 }
-<!-- !PAGE CONTENT! -->
+<br />
+<h1>Rings</h1>
+<hr />
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body class="w3-content" style="max-width:1200px">
 
-    <p class="w3-left">Rings</p>
-    @foreach (var item in Model)
-    {
-        <div class="w3-col l3 s6">
-            <div class="w3-container">
-                <div class="w3-display-container">
-                    <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:100%">
-                    @if (item.Sale == true)
-                    {
-                        <span class="w3-tag w3-display-topleft">Sale</span>
-                    }
-                    else
-                    {
-                        <span class="w3-tag w3-display-topleft">New</span>
-                    }
-                    <div class="w3-display-middle w3-display-hover">
-                        <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <!-- Push down content on small screens -->
+    <div class="w3-hide-large" style="margin-top:83px"></div>
+
+    <div class="w3-row">
+
+        <!-- Product grid -->
+        @foreach (var item in Model)
+        {
+            <div class="w3-col l3 s6">
+                <div class="w3-container">
+                    <div class="w3-display-container">
+                        <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:150px">
+                        @if (item.Sale == true)
+                        {
+                            <span class="w3-tag w3-display-topleft">Sale</span>
+                        }
+                        else
+                        {
+                            <span class="w3-tag w3-display-topleft">New</span>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="w3-display-middle w3-display-hover">
+                                <button type="button" class="w3-button w3-black" onclick="location.href='@Url.Action("AddToCart", "Orders")?id=' + @item.ID"> Add to Cart <i class="fa fa-shopping-cart"></i></button>
+                            </div>
+                        }
                     </div>
+                    <p>@Html.DisplayFor(modelItem => item.Name)<br><b>@Html.DisplayFor(modelItem => item.price)</b></p>
                 </div>
-                <p>@Html.DisplayFor(modelItem => item.Name)<br><b>@Html.DisplayFor(modelItem => item.price)</b></p>
             </div>
-        </div>
-    }
+        }
+
+    </div>
+</body>
+</html>

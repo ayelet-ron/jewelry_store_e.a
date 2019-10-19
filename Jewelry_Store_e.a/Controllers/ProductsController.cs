@@ -28,7 +28,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     return RedirectToAction("NoIndexFound");   
                 }
-                return View(filter.Item1);
+                return View(new Tuple<List<Product>, bool>(filter.Item1, true));
             }
             List<Product> recommanded = KnnRecommandation();
             if (recommanded.Count == 0)
@@ -38,11 +38,13 @@ namespace Jewelry_Store_e.a.Controllers
             }
             return View(new Tuple<List<Product>, bool>(recommanded, true));
         }
+        [AllowAnonymous]
         public IActionResult NoIndexFound()
         {
             return View();
         }
         // GET: Products
+        [AllowAnonymous]
         public Tuple<List<Product>,bool> Filter(string searchString, string searchcolor, int searchprice)
         {
             bool search = false;
@@ -77,6 +79,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             return View(await _context.Products.ToListAsync());
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Rings()
         {
             var rings = from p in _context.Products
@@ -84,6 +87,7 @@ namespace Jewelry_Store_e.a.Controllers
             rings = rings.Where(s => s.Title.Equals(title.Ring));
             return View(await rings.ToListAsync());
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Sale()
         {
             var sale = from p in _context.Products
@@ -91,6 +95,7 @@ namespace Jewelry_Store_e.a.Controllers
             sale = sale.Where(s => s.Sale.Equals(true));
             return View(await sale.ToListAsync());
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Necklace()
         {
             var necklace = from p in _context.Products
@@ -98,6 +103,15 @@ namespace Jewelry_Store_e.a.Controllers
             necklace = necklace.Where(s => s.Title.Equals(title.Necklace));
             return View(await necklace.ToListAsync());
         }
+        [AllowAnonymous]
+        public async Task<IActionResult> Earring()
+        {
+            var earrings = from p in _context.Products
+                           select p;
+            earrings = earrings.Where(s => s.Title.Equals(title.Earrings));
+            return View(await earrings.ToListAsync());
+        }
+        [AllowAnonymous]
         public async Task<IActionResult> Women_Bracelet()
         {
             var wBracelet = from p in _context.Products
@@ -105,6 +119,7 @@ namespace Jewelry_Store_e.a.Controllers
             wBracelet = wBracelet.Where(s => s.Title.Equals(title.Women_Bracelet));
             return View(await wBracelet.ToListAsync());
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Men_Bracelet()
         {
             var rings = from p in _context.Products

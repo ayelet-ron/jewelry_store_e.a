@@ -20,9 +20,23 @@ namespace Jewelry_Store_e.a.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchName,string searchLastName,string searchEmail)
         {
-            return View(await _context.Customers.ToListAsync());
+            var customers = from p in _context.Customers
+                           select p;
+            if (!String.IsNullOrEmpty(searchName))
+            {
+                customers = customers.Where(s => s.FirstName.Contains(searchName));
+            }
+            if (!String.IsNullOrEmpty(searchLastName))
+            {
+                customers = customers.Where(s => s.LastName.Contains(searchLastName));
+            }
+            if (!String.IsNullOrEmpty(searchEmail))
+            {
+                customers = customers.Where(s => s.Email.Contains(searchEmail));
+            }
+            return View(await customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -56,7 +70,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Mail,FirstName,LastName,Phone")] Customer customer)
+        public async Task<IActionResult> Create([Bind("ID,Email,FirstName,LastName,BirthDate,Password,IsAdmin")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +102,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Mail,FirstName,LastName,Phone")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Email,FirstName,LastName,BirthDate,Password,IsAdmin")] Customer customer)
         {
             if (id != customer.ID)
             {

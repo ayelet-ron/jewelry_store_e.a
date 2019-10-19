@@ -2,15 +2,56 @@
 @{
     ViewData["Title"] = "Home";
 }
+
+<head>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+    .fa {
+     
+        font-size: 30px;
+
+   
+    }
+
+        /* Add a hover effect if you want */
+        .fa:hover {
+            opacity: 0.7;
+        }
+
+    /* Set a specific color for each brand */
+
+    /* Facebook */
+    .fa-facebook {
+        background: #3B5998;
+        color: white;
+    }
+
+    button {
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+    }
+</style>
 <br />
-<h1>Welcome</h1>
 <hr />
 <!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<body class="w3-content" style="max-width:1200px">
+<body>
+    <div class="w3-display-container w3-container">
+        <img src="~/images/stars and moon necklace.jpg" alt="Jeans" style="width:800px;height:330px">
+        <div class="w3-display-topleft w3-text-white" style="padding:30px 90px">
+            <h1 class="w3-jumbo w3-hide-small">e.a Jewelry</h1>
+            <h1 class="w3-hide-small">COLLECTION 2018</h1>
+        </div>
+    </div>
 
     <!-- Overlay effect when opening sidebar on small screens -->
     <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
@@ -18,35 +59,45 @@
     <!-- !PAGE CONTENT! -->
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px"></div>
-
-    <p>Video to use:</p>
-    <video id="video1" width="270" controls/autoplay>
-        <source src="~/images/video.mp4" type='video/mp4'>
-        <source src="~/images/video.oog" type='video/ogg'>
-        <source src="~/images/‏‏video.webm" type='video/webm'>
+    <h4> This Video was choosen specially for you:</h4>
+    <video id="video4" width="300" height="500" controls="controls" autoplay muted loop="loop" preload='metadata'>
+        <source src="~/video/@ViewBag.MyString" type='video/mp4'>
     </video>
+    <br />
+    <h4>Please Recommend Our Site On Facebook</h4>
 
-    <p>Canvas (the code draws the current frame of the video every 20 millisecond):</p>
-    <canvas id="myCanvas" width="270" height="135" style="border:1px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.
-    </canvas>
+    <button class="" onclick="post()"><a href="" class="fa fa-facebook"> Share</a></button>
 
-    <script>
-        var v = document.getElementById("video1");
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        var i;
-
-        v.addEventListener("play", function () { i = window.setInterval(function () { ctx.drawImage(v, 5, 5, 260, 125) }, 20); }, false);
-        v.addEventListener("pause", function () { window.clearInterval(i); }, false);
-        v.addEventListener("ended", function () { clearInterval(i); }, false);
-    </script>
-
-    <p>
-        <strong>Note:</strong> The canvas tag is not supported in Internet
-        Explorer 8 and earlier versions.
-    </p>
 
 </body>
 </html>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '512797479511618',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v4.0'
+        });
+    }
 
+    function post() {
+        FB.ui(
+            {
+                method: 'share',
+                href: 'http://eajewlery.com',
+                message: '',
+                quote: 'Jewelry Site With The Best Prices'
+            },
+            function (response) {
+                if (response && !response.error_message) {
+                    alert('posting completed')
+                } else {
+                    alert('error')
+                }
+            }
+        );
+
+
+    }
+</script>

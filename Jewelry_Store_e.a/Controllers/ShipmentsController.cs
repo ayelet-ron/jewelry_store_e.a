@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Jewelry_Store_e.a.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ShipmentsController : BaseController
     {
         public ShipmentsController(SDMDbContext context) : base(context)

@@ -9,6 +9,16 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<header class="w3-container-fluid w3-xlarge">
+    <form asp-controller="Customers" asp-action="Index">
+        <p class="w3-right">
+            <small>FirstName:<input type="text" name="searchName" size="9"/></small>
+            <small>LastName:<input type="text" name="searchLastName" size="9"/></small>
+            <small>Email:<input type="text" name="searchEmail" size="9"/></small>
+            <input type="submit" value="search" />
+        </p>
+    </form>
+</header>
 <table class="table">
     <thead>
         <tr>
