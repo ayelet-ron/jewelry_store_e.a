@@ -20,6 +20,19 @@
         body, h1, h2, h3, h4, h5, h6, .w3-wide {
             font-family: "Montserrat", sans-serif;
         }
+        .rotate {
+            display: block;
+            width: 20px;
+            height: 20px;
+            transition: width 2s, height 2s, background-color 2s, transform 2s;
+        }
+
+            .rotate:hover {
+                width: 200px;
+                height: 200px;
+                transform: rotate(360deg);
+            }
+
     </style>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -37,7 +50,7 @@
     <header class="w3-container-fluid w3-xlarge">
         <form asp-controller="Products" asp-action="Home">
             <p class="w3-right">
-                <small>Name:<input type="text" name="searchString" /></small>
+                <small>Name:<input type="text" name="searchString"/></small>
                 <small>
                     Title:<select name="searchcolor">
                         <option value=""></option>
@@ -45,17 +58,18 @@
                         <option value="Silver">Silver</option>
                     </select>
                 </small>
-                <small>Price<input type="text" name="searchprice" /></small>
+                <small>Price<input type="text" name="searchprice"/></small>
                 <input type="submit" value="Search" />
                 <a asp-area="" asp-controller="Products" asp-action="Home" class="fa fa-search"></a>
                 <a asp-area="" asp-controller="Orders" asp-action="Cart" class="fa fa-shopping-cart w3-margin-right"></a>
             </p>
-                </form>
+        </form>
     </header>
+
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-            <li><a asp-area="" asp-controller="Shipments" asp-action="AjaxAsync">About</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -81,16 +95,35 @@
         </ul>
     </div>
     <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:240px" id="mySidebar">
+    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:240px;padding-left: 20px;" id="mySidebar">
         <div class="w3-container-fluid w3-display-container-fluid w3-padding-16">
             <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-            <h3 class="w3-wide"><b>LOGO</b></h3>
+            <h3 class="w3-wide rotate"><b>LOGO</b></h3>
         </div>
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="w3-bar-item w3-button">Home</a>
             @if (User.Identity.IsAuthenticated)
             {
-            <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Recommandation</a>
+                <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Recommandation</a>
+                <a asp-area="" asp-controller="Orders" asp-action="myOrders" class="w3-bar-item w3-button">My Orders</a>
+                if (User.HasClaim(ClaimTypes.Role, "Admin"))
+                {
+                    <a onclick="privilige()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="adminBtn">
+                        Admin <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div id="admin" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                        <a asp-area="" asp-controller="APIViews" asp-action="GrafDates" class="w3-bar-item w3-button">Graf dates</a>
+                        <a asp-area="" asp-controller="APIViews" asp-action="GrafInventory" class="w3-bar-item w3-button">Graf Inventory</a>
+                        <a asp-area="" asp-controller="Products" asp-action="Create" class="w3-bar-item w3-button">View Product</a>
+                        <a asp-area="" asp-controller="Orders" asp-action="Index" class="w3-bar-item w3-button">View Orders</a>
+                        <a asp-area="" asp-controller="Shipments" asp-action="Index" class="w3-bar-item w3-button">View Shipments</a>
+                        <a asp-area="" asp-controller="Customers" asp-action="Index" class="w3-bar-item w3-button">View Customers</a>
+                    </div>
+                }
+           }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a asp-area="" asp-controller="Products" asp-action="Home" class="w3-bar-item w3-button">Catalog</a>
             }
             <a asp-area="" asp-controller="Products" asp-action="Rings" class="w3-bar-item w3-button">Rings</a>
             <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
@@ -101,12 +134,11 @@
                 <a asp-area="" asp-controller="Products" asp-action="Men_Bracelet" class="w3-bar-item w3-button">Men's bracelet</a>
             </div>
             <a asp-area="" asp-controller="Products" asp-action="Necklace" class="w3-bar-item w3-button">Necklace</a>
-            <a asp-area="" asp-controller="Products" asp-action="Necklace" class="w3-bar-item w3-button">Earrings</a>
+            <a asp-area="" asp-controller="Products" asp-action="Earring" class="w3-bar-item w3-button">Earrings</a>
             <a asp-area="" asp-controller="Products" asp-action="Sale" class="w3-bar-item w3-button">Sale</a>
+            <a asp-area="" asp-controller="Shipments" asp-action="AjaxAsync" class="w3-bar-item w3-button">Shipments Address</a>
         </div>
         <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a>
-        <a href="#footer" class="w3-bar-item w3-button w3-padding">Subscribe</a>
     </nav>
 
     <!-- Top menu on small screens -->
@@ -174,7 +206,7 @@
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
             <!--what does appand vertion mean?? add here the layout javascript-->
-            <script src="~/js/LayoutJavaScript.js"></script>
+            <script defer src="~/js/LayoutJavaScript.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment exclude="Development">

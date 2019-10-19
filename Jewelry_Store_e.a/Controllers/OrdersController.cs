@@ -19,14 +19,21 @@ namespace Jewelry_Store_e.a.Controllers
         public OrdersController(SDMDbContext context) : base(context)
         {
         }
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Admin, Customer")]
         // GET: Orders
         public async Task<IActionResult> Index()
         {
             var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
             return View(await SDMDbContext.ToListAsync());
         }
-
+        public async Task<IActionResult> myOrders()
+        {
+            int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
+            var SDMDbContext = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await SDMDbContext.ToListAsync());
+        }
+        [Authorize(Roles = "Admin")]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -115,7 +122,7 @@ namespace Jewelry_Store_e.a.Controllers
                 _context.Update(order);
                 _context.SaveChanges();
             }
-            return RedirectToAction("Index", "KNN");
+            return RedirectToAction("Home", "Products");
         }
 
         // GET: Orders/Create
@@ -130,6 +137,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,CustomerID,OrderDate,Purchase")] Order order)
         {
             if (ModelState.IsValid)
@@ -143,6 +151,7 @@ namespace Jewelry_Store_e.a.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -164,6 +173,7 @@ namespace Jewelry_Store_e.a.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerID,OrderDate,Purchase")] Order order)
         {
             if (id != order.Id)
@@ -196,6 +206,7 @@ namespace Jewelry_Store_e.a.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -218,6 +229,7 @@ namespace Jewelry_Store_e.a.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var order = await _context.Orders.FindAsync(id);

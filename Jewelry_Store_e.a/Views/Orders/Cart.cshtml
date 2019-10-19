@@ -1,5 +1,39 @@
 ﻿@model Jewelry_Store_e.a.Models.Order
+<head>
+    <script type='text/javascript' src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
 
+<style>
+    h3 {
+        text-shadow: 2px 2px #7f99b1;
+    }
+    .fa {
+        font-size: 30px;
+    }
+
+        /* Add a hover effect if you want */
+        .fa:hover {
+            opacity: 0.7;
+        }
+
+    /* Set a specific color for each brand */
+
+    /* Facebook */
+    .fa-facebook {
+        background: #3B5998;
+        color: white;
+    }
+
+    button {
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+</style>
 @{
     ViewData["Title"] = "Cart";
 }
@@ -13,23 +47,25 @@
             <h4>Add items to cart <a asp-controller="Home" asp-action="Index">here</a></h4>
         </div>
     }
+    @{double total = 0; }
     @if (Model != null)
     {
-        <div class="w3-row w3-grayscale">
+        <div class="w3-row">
             <!-- Product grid -->
             @foreach (var item in Model.PurchaseProducts)
             {
+                total = total + item.Product.price;
                 <div class="w3-col l3 s6">
                     <div class="w3-container">
                         <div class="w3-display-container">
-                            <img src="~/images/@Html.DisplayFor(modelItem => item.Product.Image)" style="width:100%">
+                            <img src="~/images/@Html.DisplayFor(modelItem => item.Product.Image)" style="width:150px">
                             @if (item.Product.Sale)
                             {
                                 <span class="w3-tag w3-display-topleft">Sale</span>
                             }
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <div class="w3-display-middle w3-display-hover">             
+                                <div class="w3-display-middle w3-display-hover">
                                     <button type="button" class="w3-button w3-black" onclick="location.href='@Url.Action("RemoveFromCart", "Orders")?id=' + @item.Id"> Remove From Cart <i class="fa fa-shopping-cart"></i></button>
                                 </div>
                             }
@@ -39,6 +75,56 @@
                 </div>
             }
         </div>
-        <input type="button" class="w3-button w3-black" value="Buy Now" onclick="location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id" />
+        <h3>Total sum in $: @total</h3>
+        <h3 id="usd"></h3>
+        <input type="button" class="w3-button w3-black" id="buy" value="Buy Now" onclick="location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id" />
+        <script>
+            document.getElementById("buy").onclick = function () { myFunction() };
+            function myFunction() {
+                alert("congratulations enjoy your products!");
+                location.href='@Url.Action("BuyNow", "Orders")?id=' + @Model.Id;
+            }
+        </script>
+
+        <br />
+        <br />
+        <button class="" onclick="post()"><a href="" class="fa fa-facebook"> Share</a></button>
     }
 </div>
+<script> 
+    $.get("https://api.exchangeratesapi.io/latest?base=USD", function (data) {
+        //document.getElementById("usd").value = data.rates.ILS;
+        document.getElementById("usd").innerHTML = "Total sum in ILS: " + data.rates.ILS * @total;
+    });
+</script>
+       
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '512797479511618',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v4.0'
+        });
+    }
+
+    function post() {
+        FB.ui(
+            {
+                method: 'share',
+                href: 'http://eajewlery.com',
+                message: '',
+                quote: 'Just Bought here and very satisfaied'
+            },
+            function (response) {
+                if (response && !response.error_message) {
+                    alert('posting completed')
+                } else {
+                    alert('error')
+                }
+            }
+        );
+
+
+    }
+</script>

@@ -10,7 +10,18 @@ function myAccFunc() {
     }
 }
 
+function privilige() {
+    var x = document.getElementById("admin");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    }
+    else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+
 // Click on the "Jeans" link on page load to open the accordion for demo purposes
+document.getElementById("adminBtn").click();
 document.getElementById("myBtn").click();
 
 

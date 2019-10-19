@@ -1,9 +1,9 @@
-﻿@model List<Jewelry_Store_e.a.Models.Product>
+﻿@model Tuple<List<Jewelry_Store_e.a.Models.Product>,bool>
 @{
     ViewData["Title"] = "Home";
 }
 <br />
-<h1>Welcome</h1>
+<h1>Catalog</h1>
 <hr />
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@
     <!-- Image header -->
     <div class="w3-display-container w3-container">
         <img src="~/images/stars and moon necklace.jpg" alt="Jeans" style="width:70%">
-        <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+        <div class="w3-display-topleft w3-text-white" style="padding:30px 70px">
             <h1 class="w3-jumbo w3-hide-small">New arrivals</h1>
             <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>
             <h1 class="w3-hide-small">COLLECTION 2016</h1>
@@ -32,26 +32,36 @@
         </div>
     </div>
 
-    <div class="w3-container w3-text-grey" id="jeans">
-        <p>8 items</p>
-    </div>
-    <div class="w3-row w3-grayscale">
+    @if (Model.Item2)
+    {
+        <h2>Because you liked</h2>
+    }
+    else
+    {
+        <h2>Start buying to get some recommendations...</h2>
+    }
+
+    <div class="w3-row">
 
         <!-- Product grid -->
-        @foreach (var item in Model)
+        @foreach (var item in Model.Item1)
         {
             <div class="w3-col l3 s6">
                 <div class="w3-container">
                     <div class="w3-display-container">
-                        <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:100%">
+                        <img src="~/images/@Html.DisplayFor(modelItem => item.Image)" style="width:150px">
                         @if (item.Sale)
                         {
                             <span class="w3-tag w3-display-topleft">Sale</span>
                         }
+                        else
+                        {
+                            <span class="w3-tag w3-display-topleft">New</span>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="w3-display-middle w3-display-hover">
-                                <input type="button" class="w3-button w3-black" value="Add to Cart" onclick="location.href='@Url.Action("AddToCart", "Orders")?id=' + @item.ID" />
+                                <button type="button" class="w3-button w3-black" onclick="location.href='@Url.Action("AddToCart", "Orders")?id=' + @item.ID"> Add to Cart <i class="fa fa-shopping-cart"></i></button>
                             </div>
                         }
                     </div>
@@ -61,13 +71,7 @@
         }
 
     </div>
-    <!-- Subscribe section -->
-    <div class="w3-container w3-black w3-padding-32">
-        <h1>Subscribe</h1>
-        <p>To get special offers and VIP treatment:</p>
-        <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
-        <button type="button" class="w3-button w3-red w3-margin-bottom">Subscribe</button>
-    </div>
+
 
 
 

@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Jewelry_Store_e.a.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Jewelry_Store_e.a.Controllers
 {
-    public class PurchaseProductsController : Controller
+    [Authorize]
+    public class PurchaseProductsController : BaseController
     {
-        private readonly SDMDbContext _context;
-
-        public PurchaseProductsController(SDMDbContext context)
+        public PurchaseProductsController(SDMDbContext context) :base(context)
         {
-            _context = context;
         }
 
         // GET: PurchaseProducts
