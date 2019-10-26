@@ -22,7 +22,7 @@ namespace Jewelry_Store_e.a.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(SDMDbContext context) : base(context)
+        public HomeController(JewelryContext context) : base(context)
         {
         }
 

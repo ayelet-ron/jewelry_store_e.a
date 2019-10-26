@@ -10,9 +10,9 @@ namespace Jewelry_Store_e.a.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected SDMDbContext _context;
+        protected JewelryContext _context;
 
-        protected BaseController(SDMDbContext context)
+        protected BaseController(JewelryContext context)
         {
             this._context = context;
         }

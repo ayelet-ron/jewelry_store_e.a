@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Jewelry_Store_e.a.Models
 {
-    public class SDMDbContext : DbContext
+    public class JewelryContext : DbContext
     {
         #region Properties
         public DbSet<Customer> Customers { get; set; }
@@ -16,12 +16,12 @@ namespace Jewelry_Store_e.a.Models
         public DbSet<PurchaseProduct> PurchaseProducts { get; set; }
         #endregion
 
-        public SDMDbContext(DbContextOptions<SDMDbContext> options) : base(options)
+        public JewelryContext(DbContextOptions<JewelryContext> options) : base(options)
         {
 
         }
 
-        public SDMDbContext() : base()
+        public JewelryContext() : base()
         {
         }
 

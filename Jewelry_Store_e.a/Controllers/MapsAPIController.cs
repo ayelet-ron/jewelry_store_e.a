@@ -12,7 +12,7 @@ namespace Jewelry_Store_e.a.Controllers
     [ApiController]
     public class MapsAPIController : BaseController
     {
-        public MapsAPIController(SDMDbContext context) : base(context)
+        public MapsAPIController(JewelryContext context) : base(context)
         {
         }
         public IActionResult Index()

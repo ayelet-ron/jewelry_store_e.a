@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Controllers
 {
     public class LoginController : BaseController
     {
-        public LoginController(SDMDbContext context) : base(context)
+        public LoginController(JewelryContext context) : base(context)
         {
         }
 

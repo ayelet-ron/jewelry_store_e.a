@@ -15,7 +15,7 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class ProductsController : BaseController
     {
-        public ProductsController(SDMDbContext context) : base(context)
+        public ProductsController(JewelryContext context) : base(context)
         {
         }
         [AllowAnonymous]
@@ -28,7 +28,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     return RedirectToAction("NoIndexFound");   
                 }
-                return View(new Tuple<List<Product>, bool>(filter.Item1, true));
+                return View("SearchView",new Tuple<List<Product>, bool>(filter.Item1, true));
             }
             List<Product> recommanded = KnnRecommandation();
             if (recommanded.Count == 0)
@@ -266,6 +266,10 @@ namespace Jewelry_Store_e.a.Controllers
             {
                 int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
                 var recentOrders = _context.Orders.Where(order => order.CustomerID == customerId).Include(o => o.customer).Include(o => o.PurchaseProducts).ThenInclude(p => p.Product).AsQueryable();
+                if (recentOrders.ToList().Count == 0)
+                {
+                    return recommendedProducts;
+                }
                 if (recentOrders.ToList().Count > 3)
                 {
                     recentOrders = recentOrders.OrderByDescending(a => a.OrderDate).Take(3);

@@ -36,6 +36,15 @@
         overflow: hidden;
         outline: none;
     }
+    aside {
+        width: 50%;
+        margin-top:-500px;
+        margin-right: 70px;
+        float: right;
+        box-shadow: inset 5px 0 5px -5px #29627e;
+        font-style: italic;
+        color: #29627e;
+    }
 </style>
 <br />
 <hr />
@@ -60,13 +69,14 @@
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px"></div>
     <h4> This Video was choosen specially for you:</h4>
-    <video id="video4" width="300" height="500" controls="controls" autoplay muted loop="loop" preload='metadata'>
+    <video id="video4" width="400" height="500" controls="controls" autoplay muted loop="loop" preload='metadata'>
         <source src="~/video/@ViewBag.MyString" type='video/mp4'>
     </video>
     <br />
-    <h4>Please Recommend Our Site On Facebook</h4>
-
-    <button class="" onclick="post()"><a href="" class="fa fa-facebook"> Share</a></button>
+    <aside>
+        <h4>Please Recommend Our Site On Facebook</h4>
+        <button class="" onclick="post()"><a href="" class="fa fa-facebook"> Share</a></button>
+    </aside>
 
 
 </body>

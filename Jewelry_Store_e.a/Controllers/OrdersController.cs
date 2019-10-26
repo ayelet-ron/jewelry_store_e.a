@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class OrdersController : BaseController
     {
-        public OrdersController(SDMDbContext context) : base(context)
+        public OrdersController(JewelryContext context) : base(context)
         {
         }
 
@@ -24,14 +24,14 @@ namespace Jewelry_Store_e.a.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
-            return View(await SDMDbContext.ToListAsync());
+            var jewelry = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await jewelry.ToListAsync());
         }
         public async Task<IActionResult> myOrders()
         {
             int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
-            var SDMDbContext = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
-            return View(await SDMDbContext.ToListAsync());
+            var jewelry = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await jewelry.ToListAsync());
         }
         [Authorize(Roles = "Admin")]
         // GET: Orders/Details/5

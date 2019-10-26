@@ -15,7 +15,7 @@ namespace Jewelry_Store_e.a.Controllers
     public class CustomersController : BaseController
     {
 
-        public CustomersController(SDMDbContext context): base(context)
+        public CustomersController(JewelryContext context): base(context)
         {
         }
 

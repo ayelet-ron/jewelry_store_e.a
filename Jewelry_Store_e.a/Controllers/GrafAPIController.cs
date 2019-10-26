@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Controllers
     //[Authorize(Roles = "Admin")]
     public class GrafAPIController : BaseController
     {
-        public GrafAPIController(SDMDbContext context) : base(context)
+        public GrafAPIController(JewelryContext context) : base(context)
         {
         }
         public IActionResult Index()

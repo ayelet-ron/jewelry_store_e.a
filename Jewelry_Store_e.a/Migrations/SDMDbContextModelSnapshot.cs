@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jewelry_Store_e.a.Migrations
 {
-    [DbContext(typeof(SDMDbContext))]
+    [DbContext(typeof(JewelryContext))]
     partial class SDMDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

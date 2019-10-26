@@ -25,7 +25,7 @@ namespace Jewelry_Store_e.a
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<SDMDbContext>();
+                    var context = services.GetRequiredService<JewelryContext>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)

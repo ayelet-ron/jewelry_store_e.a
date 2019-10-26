@@ -14,7 +14,7 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize(Roles = "Admin")]
     public class ShipmentsController : BaseController
     {
-        public ShipmentsController(SDMDbContext context) : base(context)
+        public ShipmentsController(JewelryContext context) : base(context)
         {
         }
         [AllowAnonymous]

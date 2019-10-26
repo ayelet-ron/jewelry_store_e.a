@@ -13,15 +13,15 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class PurchaseProductsController : BaseController
     {
-        public PurchaseProductsController(SDMDbContext context) :base(context)
+        public PurchaseProductsController(JewelryContext context) :base(context)
         {
         }
 
         // GET: PurchaseProducts
         public async Task<IActionResult> Index()
         {
-            var sDMDbContext = _context.PurchaseProducts.Include(p => p.Order).Include(p => p.Product);
-            return View(await sDMDbContext.ToListAsync());
+            var jewelry = _context.PurchaseProducts.Include(p => p.Order).Include(p => p.Product);
+            return View(await jewelry.ToListAsync());
         }
 
         // GET: PurchaseProducts/Details/5
