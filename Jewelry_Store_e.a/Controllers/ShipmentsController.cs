@@ -34,14 +34,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var shipment = await _context.Shipments
                 .FirstOrDefaultAsync(m => m.ShipmentID == id);
             if (shipment == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(shipment);
@@ -74,13 +74,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var shipment = await _context.Shipments.FindAsync(id);
             if (shipment == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             return View(shipment);
         }
@@ -94,7 +94,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != shipment.ShipmentID)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!ShipmentExists(shipment.ShipmentID))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {
@@ -125,14 +125,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var shipment = await _context.Shipments
                 .FirstOrDefaultAsync(m => m.ShipmentID == id);
             if (shipment == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(shipment);

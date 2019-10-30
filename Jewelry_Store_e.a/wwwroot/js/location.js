@@ -6,15 +6,7 @@ var BingMapsKey = 'AkDnTh-F1E565FfNPYCHbjs4JRMN6fC43_WivOhXMja2MVEFmDJhO2ZY8r_Mu
             credentials: 'AkDnTh-F1E565FfNPYCHbjs4JRMN6fC43_WivOhXMja2MVEFmDJhO2ZY8r_MuX54',
             center: new Microsoft.Maps.Location(32.07385, 34.7954)
         });
-        /*var center = map.getCenter();
 
-        var pin = new Microsoft.Maps.Pushpin(center, {
-            title: '',
-            subTitle: '',
-            text: 'Tel Aviv'
-        });
-        map.entities.push(pin);*/
-        //var query = ['Raoul Wallenberg 24, tel aviv', 'yamit 62, rishon le ziyon', 'Yigal Alon St 120, Tel Aviv-Yafo'];
         $.ajax({
             method: 'get',
             url: '/api/maps/address',

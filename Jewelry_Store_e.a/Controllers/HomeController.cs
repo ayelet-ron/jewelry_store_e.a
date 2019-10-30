@@ -17,6 +17,8 @@ using Accord.Statistics;
 using Accord.Statistics.Kernels;
 using Accord.MachineLearning;
 using System.Security.Claims;
+using System.Text;
+
 
 namespace Jewelry_Store_e.a.Controllers
 {
@@ -30,7 +32,108 @@ namespace Jewelry_Store_e.a.Controllers
         {
             string mystring = knn();
             ViewBag.MyString = mystring;
+            List<string> articles =Twitter();
+            ViewBag.articles = articles;
             return View();
+        }
+        public List<string> Twitter()
+        {
+            List<string> articles = new List<string>();
+            string credentials = "TUhiVGI0eVlJdzRSMVdGYTUzSnNrYXlqajpyZEszREJhdlhMZWFOOGdKbWdKcGxBOWlJTkgxQXFDQkhMZEJnVlp5ZEdCWGdLa3o2MA==";
+            string access_token = "";
+            var post = WebRequest.Create("https://api.twitter.com/oauth2/token") as HttpWebRequest;
+            post.Method = "POST";
+            post.ContentType = "application/x-www-form-urlencoded";
+            post.Headers[HttpRequestHeader.Authorization] = "Basic " + credentials;
+            var reqbody = Encoding.UTF8.GetBytes("grant_type=client_credentials");
+            post.ContentLength = reqbody.Length;
+            using (var req = post.GetRequestStream())
+            {
+                req.Write(reqbody, 0, reqbody.Length);
+            }
+            try
+            {
+                string respbody = null;
+                using (var resp = post.GetResponse().GetResponseStream())//there request sends
+                {
+                    var respR = new StreamReader(resp);
+                    respbody = respR.ReadToEnd();
+                }
+                access_token = respbody.Substring(respbody.IndexOf("access_token\":\"") + "access_token\":\"".Length, respbody.IndexOf("\"}") - (respbody.IndexOf("access_token\":\"") + "access_token\":\"".Length));
+            }
+            catch //if credentials are not valid (403 error)
+            {
+                //TODO
+            }
+
+            var gettimeline = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=PANDORA_NA") as HttpWebRequest;
+            gettimeline.Method = "GET";
+            gettimeline.Headers[HttpRequestHeader.Authorization] = "Bearer " + access_token;
+            try
+            {
+                string respbody = null;
+                using (var resp = gettimeline.GetResponse().GetResponseStream())
+                {
+                    var respR = new StreamReader(resp);
+                    respbody = respR.ReadToEnd();
+                    dynamic json = JsonConvert.DeserializeObject(respbody);
+                    articles.Add(json[0].text.ToString());
+                }
+
+                //TODO use a library to parse json
+
+            }
+            catch //401 (access token invalid or expired)
+            {
+                //TODO
+            }
+       
+            var gettimeline1 = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=hsternofficial") as HttpWebRequest;
+            gettimeline1.Method = "GET";
+            gettimeline1.Headers[HttpRequestHeader.Authorization] = "Bearer " + access_token;
+            try
+            {
+                string respbody = null;
+                using (var resp = gettimeline1.GetResponse().GetResponseStream())
+                {
+                    var respR = new StreamReader(resp);
+                    respbody = respR.ReadToEnd();
+                    dynamic json = JsonConvert.DeserializeObject(respbody);
+                    articles.Add(json[0].text.ToString());
+
+                }
+
+                //TODO use a library to parse json
+
+            }
+            catch //401 (access token invalid or expired)
+            {
+                //TODO
+            }
+
+            var gettimeline2 = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=RockHerJewelry") as HttpWebRequest;
+            gettimeline2.Method = "GET";
+            gettimeline2.Headers[HttpRequestHeader.Authorization] = "Bearer " + access_token;
+            try
+            {
+                string respbody = null;
+                using (var resp = gettimeline2.GetResponse().GetResponseStream())
+                {
+                    var respR = new StreamReader(resp);
+                    respbody = respR.ReadToEnd();
+                    dynamic json = JsonConvert.DeserializeObject(respbody);
+                    articles.Add(json[0].text.ToString());
+
+                }
+
+                //TODO use a library to parse json
+
+            }
+            catch //401 (access token invalid or expired)
+            {
+                //TODO
+            }
+            return articles;
         }
         public string knn()
         {

@@ -45,6 +45,21 @@
         font-style: italic;
         color: #29627e;
     }
+    .shipments {
+        column-count: 3;
+        column-gap: 40px;
+        border: 2px solid #cccccc;
+        padding: 10px;
+        border-radius: 50px 20px;
+        color: black;
+    }
+
+    section {
+        display: block;
+    }
+    
+
+    
 </style>
 <br />
 <hr />
@@ -76,8 +91,27 @@
     <aside>
         <h4>Please Recommend Our Site On Facebook</h4>
         <button class="" onclick="post()"><a href="" class="fa fa-facebook"> Share</a></button>
+        <br />
+        <br />
+        <br />
+        <br />
+        <font face="david">
+            <div class="shipments">
+                <section>Founded in 1982 and headquartered in Copenhagen, Denmark, ea is world-renowned for its hand-finished and contemporary jewelry.</section>
+                <section>ea jewelry is made from the highest quality, ethically sourced, 14k gold, 18K gold-plated sterling silver, sterling silver and ea Rose metals, and every single stone is hand set by a dedicated and skilled team of craftsmen.</section>
+                <section>In addition to iconic ea charms and bracelets, ea rings, earrings and necklaces are equally beautiful and versatile.</section>
+                <section>Come be inspired at your local ea Jewelry store today.</section>
+            </div>
+            <br />
+        </font>
     </aside>
 
+    <h1>PANDORA represents:</h1>
+    <h4>@ViewBag.articles[0]</h4>
+    <h1>Hstern official represents:</h1>
+    <h4>@ViewBag.articles[1]</h4>
+    <h1>Rock Her Jewelry represents:</h1>
+    <h4>@ViewBag.articles[2]</h4>
 
 </body>
 </html>

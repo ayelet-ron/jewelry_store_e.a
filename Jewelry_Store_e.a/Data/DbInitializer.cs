@@ -14,82 +14,167 @@ namespace Jewelry_Store_e.a.Data
             context.Database.EnsureCreated();
 
             // Look for any customers.
-            /* if (context.Customers.Any())
+            /*if (context.Customers.Any())
              {
                  return;   // DB has been seeded
-             }
+             }*/
             Customer c = new Customer
             {
-                FirstName = "Admin",
-                LastName = "Admin",
+                FirstName = "Chen",
+                LastName = "Amiel",
                 BirthDate = new DateTime(1995, 11, 04),
-                Email = "admin@gmail.com",
+                Email = "Chen@gmail.com",
                 Password = "admin",
                 IsAdmin = true
             };
             context.Customers.Add(c);
             context.SaveChanges();
-            Product p = new Product
-            {
-                Name = "errings",
-                Title = title.Earrings,
-                Image = "~/images/Eye necklace.jpg",
-                Sale = true,
-                Color = color.Gold,
-                price = 100
-            };
-            context.Products.Add(p);
-            context.SaveChanges();
             Order o = new Order
             {
                 CustomerID = c.ID,
-                OrderDate = DateTime.Now
+                OrderDate = DateTime.Today.AddDays(-3),
+                Purchase = true
             };
             context.Orders.Add(o);
             context.SaveChanges();
             PurchaseProduct s = new PurchaseProduct
             {
                 OrderID=o.Id,
-                ProductID=p.ID
+                ProductID=1022
             };
             context.PurchaseProducts.Add(s);
             context.SaveChanges();
-            PurchaseProduct s1 = new PurchaseProduct
+            ////////////////////////////
+            Order o1 = new Order
             {
-                OrderID = 1,
-                ProductID = 1
+                CustomerID = c.ID,
+                OrderDate = DateTime.Today.AddDays(-5),
+                Purchase=true
             };
-            context.PurchaseProducts.Add(s1);
+            context.Orders.Add(o1);
             context.SaveChanges();
-            Product p = new Product
+            PurchaseProduct s2 = new PurchaseProduct
             {
-                Name = "seshell",
-                Title = title.Women_Bracelet,
-                Image = "Seashell bracelet.jpg",
-                Sale = false,
-                Color = color.Silver,
-                price = 70
+                OrderID = o1.Id,
+                ProductID = 1024
             };
-            context.Products.Add(p);
+            context.PurchaseProducts.Add(s2);
             context.SaveChanges();
-            Product p1 = new Product
+            PurchaseProduct s3 = new PurchaseProduct
             {
-                Name = "Big Eye",
-                Title = title.Ring,
-                Image = "Eye ring.jpg",
-                Sale = false,
-                Color = color.Silver,
-                price = 85
+                OrderID = o1.Id,
+                ProductID = 1025
             };
-            context.Products.Add(p1);
+            context.PurchaseProducts.Add(s3);
             context.SaveChanges();
-            context.Shipments.AddRange(new List<Shipment>() {
+            /////////////////////////
+            Order o2 = new Order
+            {
+                CustomerID = c.ID,
+                OrderDate = DateTime.Today.AddDays(-8),
+                Purchase = true
+            };
+            context.Orders.Add(o2);
+            context.SaveChanges();
+            PurchaseProduct s4 = new PurchaseProduct
+            {
+                OrderID = o2.Id,
+                ProductID = 1035
+            };
+            context.PurchaseProducts.Add(s4);
+            context.SaveChanges();
+            //////////////////////////////////////////////////////////
+            Order o3 = new Order
+            {
+                CustomerID = 7,
+                OrderDate = DateTime.Today.AddDays(-6),
+                Purchase = true
+            };
+            context.Orders.Add(o3);
+            context.SaveChanges();
+            PurchaseProduct s5 = new PurchaseProduct
+            {
+                OrderID = o3.Id,
+                ProductID = 1028
+            };
+            context.PurchaseProducts.Add(s5);
+            context.SaveChanges();
+            PurchaseProduct s6 = new PurchaseProduct
+            {
+                OrderID = o3.Id,
+                ProductID = 1029
+            };
+            context.PurchaseProducts.Add(s6);
+            context.SaveChanges();
+            /////////////////////////////////////////////////
+            Order o4 = new Order
+            {
+                CustomerID = 7,
+                OrderDate = DateTime.Today.AddDays(-12),
+                Purchase = true
+            };
+            context.Orders.Add(o4);
+            context.SaveChanges();
+            PurchaseProduct s8 = new PurchaseProduct
+            {
+                OrderID = o4.Id,
+                ProductID = 1033
+            };
+            context.PurchaseProducts.Add(s8);
+            context.SaveChanges();
+            PurchaseProduct s13 = new PurchaseProduct
+            {
+                OrderID = o4.Id,
+                ProductID = 1013
+            };
+            context.PurchaseProducts.Add(s13);
+            context.SaveChanges();
+            /////////////////////////////////////
+            Order o5 = new Order
+            {
+                CustomerID = 7,
+                OrderDate = DateTime.Today.AddDays(-16),
+                Purchase = true
+            };
+            context.Orders.Add(o5);
+            context.SaveChanges();
+            PurchaseProduct s9 = new PurchaseProduct
+            {
+                OrderID = o5.Id,
+                ProductID = 1013
+            };
+            context.PurchaseProducts.Add(s9);
+            context.SaveChanges();
+            PurchaseProduct s11 = new PurchaseProduct
+            {
+                OrderID = o5.Id,
+                ProductID = 1015
+            };
+            context.PurchaseProducts.Add(s11);
+            context.SaveChanges();
+            /*context.Shipments.AddRange(new List<Shipment>() {
                 new Shipment
                 {
-                    Address="Raoul Wallenberg 24",
-                    City = "tel aviv"
+                    Address="Raoul Wallenberg 24, tel aviv",
+                },
+                new Shipment
+                {
+                    Address="Ha-Mano'a St 7, Tel Aviv-Yafo",
+                },
+                new Shipment
+                {
+                    Address="Ha-Lokhamim St 62, Holon",
+                },
+                new Shipment
+                {
+                    Address="Yigal Alon St 120, Tel Aviv-Yafo",
+                },
+                new Shipment
+                {
+                    Address="yamit 62, rishon le ziyon",
                 }
             });
+            context.SaveChanges();
             context.Products.AddRange(new List<Product>() {
                 new Product
                 {

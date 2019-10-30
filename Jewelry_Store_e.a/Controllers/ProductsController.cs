@@ -132,14 +132,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(product);
@@ -175,13 +175,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             return View(product);
         }
@@ -196,7 +196,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != product.ID)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -206,16 +206,9 @@ namespace Jewelry_Store_e.a.Controllers
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch
                 {
-                    if (!ProductExists(product.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Redirect("/error/PageNotFound");
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -228,14 +221,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(product);
@@ -270,9 +263,9 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     return recommendedProducts;
                 }
-                if (recentOrders.ToList().Count > 3)
+                if (recentOrders.ToList().Count > 5)
                 {
-                    recentOrders = recentOrders.OrderByDescending(a => a.OrderDate).Take(3);
+                    recentOrders = recentOrders.OrderByDescending(a => a.OrderDate).Take(5);
                 }
                 foreach (var order in recentOrders)
                 {

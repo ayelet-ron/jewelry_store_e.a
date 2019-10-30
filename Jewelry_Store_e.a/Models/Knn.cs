@@ -32,11 +32,11 @@ namespace Jewelry_Store_e.a.Models
         //if the customer bought the hole store need to check !
         public static List<int> Majority(List<Tuple<double, int>> recomanded)
         {
-            if (recomanded.Count > 3)
+            if (recomanded.Count > 12)
             {
-                return recomanded.OrderByDescending(a => a.Item1).Take(3).Select(t => t.Item2).ToList();
+                return recomanded.OrderByDescending(a => a.Item1).Take(12).Select(t => t.Item2).ToList();
             }
-            return recomanded.OrderByDescending(a => a.Item1).Select(t => t.Item2).ToList();
+            return recomanded.OrderBy(a => a.Item1).Select(t => t.Item2).ToList();
         }
     }
 }

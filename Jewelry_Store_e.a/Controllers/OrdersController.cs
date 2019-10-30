@@ -39,7 +39,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders
@@ -48,7 +48,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(order);
@@ -156,13 +156,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID", order.CustomerID);
             return View(order);
@@ -178,7 +178,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != order.Id)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -192,7 +192,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!OrderExists(order.Id))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {
@@ -211,7 +211,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders
@@ -220,7 +220,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(order);

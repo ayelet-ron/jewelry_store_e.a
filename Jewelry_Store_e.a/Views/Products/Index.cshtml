@@ -7,19 +7,7 @@
     <p>
         <a asp-action="Create">Create New</a>
     </p>
-    <!--add to search-->
-    <form asp-controller="Products" asp-action="Index">
-        <p>
-            Name:<input type="text" name="searchString" />
-            Title:<select name="searchcolor">
-                <option value=""></option>
-                <option value="Gold">Gold</option>
-                <option value="Silver">Silver</option>
-            </select>
-            Price:<input type="text" name="searchprice" />
-            <input type="submit" value="Search" />
-        </p>
-    </form>
+   
     <table class="table">
         <thead>
             <tr>
