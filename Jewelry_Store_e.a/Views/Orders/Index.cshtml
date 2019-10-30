@@ -28,12 +28,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.customer.ID)
             </td>
-            @foreach (var p in item.PurchaseProducts)
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => p.Product.Name)
-                </td>
-            }
             <td>
                 @Html.DisplayFor(modelItem => item.OrderDate)
             </td>

@@ -13,10 +13,9 @@ namespace Jewelry_Store_e.a.Controllers
 {
     [Route("api/graf")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
     public class GrafAPIController : BaseController
     {
-        public GrafAPIController(SDMDbContext context) : base(context)
+        public GrafAPIController(JewelryContext context) : base(context)
         {
         }
         public IActionResult Index()
@@ -24,22 +23,10 @@ namespace Jewelry_Store_e.a.Controllers
             return View();
         }
         [HttpGet("dates")]
-        /*public async Task<ActionResult<List<Tuple<DateTime, int>>>> OrdersDate()
-        {
-            return _context.Orders.GroupBy(o => o.OrderDate.Date).Select(a => new Tuple<DateTime, int>({ "date": a.Key.Date, "count": a.Sum(c => c.PurchaseProducts.Count) })).ToListAsync<Tuple<DateTime, int>>(g =>new Tuple (date = g.name.Date, count = g => g.count));
-        }*/
-
         public async Task<ActionResult<List<Tuple<DateTime, int>>>> OrdersDate()
         {
             return _context.Orders.GroupBy(o => o.OrderDate.Date).Select(a => new { name = a.Key.Date, count = a.Sum(c => c.PurchaseProducts.Count) }).AsEnumerable().Select(c => new Tuple<DateTime, int>(c.name.Date, c.count)).ToList();
         }
-
-        /*[HttpGet("Title")]
-        public async Task<ActionResult<Dictionary<title, int>>> ProductsInventory()
-        {
-            return _context.Products.GroupBy(p => p.Title).Select(a => new { name = a.Key, count = a.Count() }).ToDictionary(g => g.name, g => g.count);
-        }
-		//****************************************or*/
         [HttpGet("title")]
         // public async Task<ActionResult<List<Tuple<title,IEnumerable<Tuple<color,int>>>>>> ProductsInventory()
         public async Task<ActionResult<List<Tuple<string, IEnumerable<Tuple<string, int>>>>>> ProductsInventory()

@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class OrdersController : BaseController
     {
-        public OrdersController(SDMDbContext context) : base(context)
+        public OrdersController(JewelryContext context) : base(context)
         {
         }
 
@@ -24,14 +24,14 @@ namespace Jewelry_Store_e.a.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var SDMDbContext = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
-            return View(await SDMDbContext.ToListAsync());
+            var jewelry = _context.Orders.Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await jewelry.ToListAsync());
         }
         public async Task<IActionResult> myOrders()
         {
             int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
-            var SDMDbContext = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
-            return View(await SDMDbContext.ToListAsync());
+            var jewelry = _context.Orders.Where(o=>o.CustomerID== customerId).Where(o=>o.Purchase==true).Include(o => o.customer).Include(o => o.PurchaseProducts);
+            return View(await jewelry.ToListAsync());
         }
         [Authorize(Roles = "Admin")]
         // GET: Orders/Details/5
@@ -39,7 +39,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders
@@ -48,7 +48,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(order);
@@ -156,13 +156,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             ViewData["ID"] = new SelectList(_context.Customers, "ID", "ID", order.CustomerID);
             return View(order);
@@ -178,7 +178,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != order.Id)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -192,7 +192,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!OrderExists(order.Id))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {
@@ -211,7 +211,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var order = await _context.Orders
@@ -220,7 +220,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(order);

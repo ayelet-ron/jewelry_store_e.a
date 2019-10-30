@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jewelry_Store_e.a.Migrations
 {
-    [DbContext(typeof(SDMDbContext))]
+    [DbContext(typeof(JewelryContext))]
     [Migration("20191012105507_address")]
     partial class address
     {

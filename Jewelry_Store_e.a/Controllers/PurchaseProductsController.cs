@@ -13,15 +13,15 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class PurchaseProductsController : BaseController
     {
-        public PurchaseProductsController(SDMDbContext context) :base(context)
+        public PurchaseProductsController(JewelryContext context) :base(context)
         {
         }
 
         // GET: PurchaseProducts
         public async Task<IActionResult> Index()
         {
-            var sDMDbContext = _context.PurchaseProducts.Include(p => p.Order).Include(p => p.Product);
-            return View(await sDMDbContext.ToListAsync());
+            var jewelry = _context.PurchaseProducts.Include(p => p.Order).Include(p => p.Product);
+            return View(await jewelry.ToListAsync());
         }
 
         // GET: PurchaseProducts/Details/5
@@ -29,7 +29,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var purchaseProduct = await _context.PurchaseProducts
@@ -38,7 +38,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (purchaseProduct == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(purchaseProduct);
@@ -75,13 +75,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var purchaseProduct = await _context.PurchaseProducts.FindAsync(id);
             if (purchaseProduct == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             ViewData["OrderID"] = new SelectList(_context.Orders, "Id", "Id", purchaseProduct.OrderID);
             ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Image", purchaseProduct.ProductID);
@@ -97,7 +97,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != purchaseProduct.Id)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -111,7 +111,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!PurchaseProductExists(purchaseProduct.Id))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {
@@ -130,7 +130,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var purchaseProduct = await _context.PurchaseProducts
@@ -139,7 +139,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (purchaseProduct == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(purchaseProduct);

@@ -15,7 +15,7 @@ namespace Jewelry_Store_e.a.Controllers
     public class CustomersController : BaseController
     {
 
-        public CustomersController(SDMDbContext context): base(context)
+        public CustomersController(JewelryContext context): base(context)
         {
         }
 
@@ -44,7 +44,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             //thos will do joi  i will sendt the view 
             var customer = await _context.Customers
@@ -53,7 +53,7 @@ namespace Jewelry_Store_e.a.Controllers
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (customer == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(customer);
@@ -86,13 +86,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             return View(customer);
         }
@@ -106,7 +106,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != customer.ID)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!CustomerExists(customer.ID))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {
@@ -137,14 +137,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (customer == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(customer);

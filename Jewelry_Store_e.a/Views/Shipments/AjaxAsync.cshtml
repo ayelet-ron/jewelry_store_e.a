@@ -3,23 +3,26 @@
 @{
     ViewData["Title"] = "AjaxAsync";
 }
+
 <canvas id="clogo" width="200px" height="100px"></canvas>
-<h5>Your welcome to pick every shipment address and we will bring the product all the way to you</h5>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <meta charset="utf-8" />
-    <script type='text/javascript' src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-    <script type='text/javascript' src="~/js/location.js"></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+<br />
 
 
-</head>
-<body>
-    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
-</body>
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title></title>
+        <meta charset="utf-8" />
+        <script type='text/javascript' src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+        <script type='text/javascript' src="~/js/location.js"></script>
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+
+
+    </head>
+    <body>
+        <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    </body>
 </html>
 <script>
     var canvas = $("#clogo")[0];

@@ -16,7 +16,7 @@ namespace Jewelry_Store_e.a.Controllers
 {
     public class LoginController : BaseController
     {
-        public LoginController(SDMDbContext context) : base(context)
+        public LoginController(JewelryContext context) : base(context)
         {
         }
 
@@ -81,7 +81,7 @@ namespace Jewelry_Store_e.a.Controllers
                 if (customer == null)
                 {
                     //ViewData["Object"] = "Customer";
-                    return NotFound();
+                    return Redirect("/error/PageNotFound");
                 }
                 return View(customer);
             }
@@ -168,14 +168,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (customer == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (customer.IsAdmin) return RedirectToAction(nameof(List));
@@ -218,7 +218,7 @@ namespace Jewelry_Store_e.a.Controllers
             var customer = await _context.Customers.FindAsync(ID);
             if (customer == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             return View(customer);
         }
@@ -231,7 +231,7 @@ namespace Jewelry_Store_e.a.Controllers
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             if (id != customer.ID)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             if (userId != id && !User.IsInRole("Admin"))
             {
@@ -251,7 +251,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     if (!CustomerExists(customer.ID))
                     {
-                        return NotFound();
+                        return Redirect("/error/PageNotFound");
                     }
                     else
                     {

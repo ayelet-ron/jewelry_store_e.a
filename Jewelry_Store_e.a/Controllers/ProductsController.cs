@@ -15,7 +15,7 @@ namespace Jewelry_Store_e.a.Controllers
     [Authorize]
     public class ProductsController : BaseController
     {
-        public ProductsController(SDMDbContext context) : base(context)
+        public ProductsController(JewelryContext context) : base(context)
         {
         }
         [AllowAnonymous]
@@ -28,7 +28,7 @@ namespace Jewelry_Store_e.a.Controllers
                 {
                     return RedirectToAction("NoIndexFound");   
                 }
-                return View(new Tuple<List<Product>, bool>(filter.Item1, true));
+                return View("SearchView",new Tuple<List<Product>, bool>(filter.Item1, true));
             }
             List<Product> recommanded = KnnRecommandation();
             if (recommanded.Count == 0)
@@ -132,14 +132,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(product);
@@ -175,13 +175,13 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
             return View(product);
         }
@@ -196,7 +196,7 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id != product.ID)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             if (ModelState.IsValid)
@@ -206,16 +206,9 @@ namespace Jewelry_Store_e.a.Controllers
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch
                 {
-                    if (!ProductExists(product.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Redirect("/error/PageNotFound");
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -228,14 +221,14 @@ namespace Jewelry_Store_e.a.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
-                return NotFound();
+                return Redirect("/error/PageNotFound");
             }
 
             return View(product);
@@ -266,9 +259,13 @@ namespace Jewelry_Store_e.a.Controllers
             {
                 int customerId = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value);
                 var recentOrders = _context.Orders.Where(order => order.CustomerID == customerId).Include(o => o.customer).Include(o => o.PurchaseProducts).ThenInclude(p => p.Product).AsQueryable();
-                if (recentOrders.ToList().Count > 3)
+                if (recentOrders.ToList().Count == 0)
                 {
-                    recentOrders = recentOrders.OrderByDescending(a => a.OrderDate).Take(3);
+                    return recommendedProducts;
+                }
+                if (recentOrders.ToList().Count > 5)
+                {
+                    recentOrders = recentOrders.OrderByDescending(a => a.OrderDate).Take(5);
                 }
                 foreach (var order in recentOrders)
                 {
