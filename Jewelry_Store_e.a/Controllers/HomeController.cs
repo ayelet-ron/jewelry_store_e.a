@@ -63,7 +63,7 @@ namespace Jewelry_Store_e.a.Controllers
             }
             catch //if credentials are not valid (403 error)
             {
-                //TODO
+                Redirect("/error/PageNotFound");
             }
 
             var gettimeline = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=PANDORA_NA") as HttpWebRequest;
@@ -79,13 +79,10 @@ namespace Jewelry_Store_e.a.Controllers
                     dynamic json = JsonConvert.DeserializeObject(respbody);
                     articles.Add(json[0].text.ToString());
                 }
-
-                //TODO use a library to parse json
-
             }
             catch //401 (access token invalid or expired)
             {
-                //TODO
+                Redirect("/error/PageNotFound");
             }
        
             var gettimeline1 = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=hsternofficial") as HttpWebRequest;
@@ -102,13 +99,10 @@ namespace Jewelry_Store_e.a.Controllers
                     articles.Add(json[0].text.ToString());
 
                 }
-
-                //TODO use a library to parse json
-
             }
             catch //401 (access token invalid or expired)
             {
-                //TODO
+                Redirect("/error/PageNotFound");
             }
 
             var gettimeline2 = WebRequest.Create("https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=RockHerJewelry") as HttpWebRequest;
@@ -126,12 +120,10 @@ namespace Jewelry_Store_e.a.Controllers
 
                 }
 
-                //TODO use a library to parse json
-
             }
             catch //401 (access token invalid or expired)
             {
-                //TODO
+                Redirect("/error/PageNotFound");
             }
             return articles;
         }
